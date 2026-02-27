@@ -27,7 +27,7 @@ def align_fp(boundary, boxes, types, edges, image, threshold, dtype=int):
 
     boxes_aligned   = np.array(boxes_aligned,dtype=dtype)
     order           = np.array(order,dtype=dtype).reshape(-1)-1
-    room_boundaries = np.array([np.array(rb,dtype=float) for rb in room_boundaries]) # poly with hole has value 'nan'
+    room_boundaries = [np.asarray(rb, dtype=float) for rb in room_boundaries]  # ragged, supports holes/var-len
 
     return boxes_aligned, order, room_boundaries
 

@@ -201,10 +201,12 @@ class Floorplan():
         rooms = []
         regions = measure.regionprops(self.instance)
         for region in regions:
-            c = stats.mode(self.category[region.coords[:,0],region.coords[:,1]])[0][0]
-            y0,x0,y1,x1 = np.array(region.bbox) 
-            rooms.append([y0,x0,y1,x1,c])
-        self.rooms = np.array(rooms,dtype=int)
+            vals = self.category[region.coords[:, 0], region.coords[:, 1]]
+            c = stats.mode(vals, axis=None, keepdims=True).mode[0]
+
+            y0, x0, y1, x1 = np.array(region.bbox)
+            rooms.append([y0, x0, y1, x1, c])
+        self.rooms = np.array(rooms, dtype=int)
 
     def _get_edges(self,th=9):
         if self.rooms is None: self._get_rooms()
